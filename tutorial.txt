@@ -1,2 +1,99 @@
-tutorial link--> https://www.youtube.com/watch?v=0eluxklOZVo&list=PLC3y8-rFHvwheJHvseC3I0HuYI2f46oAK&index=2
-first command ==> npm init --yes // to load or generate package.json
+1. tutorial link--> https://www.youtube.com/watch?v=0eluxklOZVo&list=PLC3y8-rFHvwheJHvseC3I0HuYI2f46oAK&index=2
+2. first command ==> npm init --yes // to load or generate package.json
+
+
+3. redux official website --> https://redux.js.org/
+
+4. run cmd --> npm install redux
+
+5. create file index.js 
+5.1. in index.js file :
+        console.log('hello world');
+
+5.2. run cmd --> node index
+
+Three Core Concepts contd.
+|____________________________________________________
+|1. A store that holds the state of your application.
+|2. An action that describes  the changes in the state of the application.
+|3. A reducer which actually carries out the state transition depending on the action.
+|_______________________________________________________________________________
+
+Three Principles
+|____________________________________________________
+|1. First Principle:
+    "The state of whole application is stored in an object tree within a single store."
+
+|2. Second Principles:
+    "The only way to change the state is to emit an action, an object describing what happend"
+    -To update the state of your app, you need to let redux know about that with an action.
+
+|3. third Principles:
+    -"To specify how the state tree is transformed by actions, you write pure reducers."
+    Reducer- (previousState, action) => newState
+|________________________________________________________________________
+
+Three Principles Overview
+                        subscribed  
+                    ---------------> Javascript App -----------------
+                    |                                                |
+                    |                                                | dispatch
+                    |                                                |
+                Redux store                                         \/
+                    /\                                              Action
+                    |                                                |
+                    |                                                |
+                    |------------------>Reducer<----------------------
+
+
+Actions 
+-The only way your application can interact with the store
+ Carry some information from your app to the redux store 
+ Plain Javascript objects 
+ Have a 'type' property that indicates the type of action
+ being performed. The 'type' property is typically defined
+ as string constants.
+
+ in index.js file
+ action-->
+ const BUY_CAKE = 'BUY_CAKE'
+
+    function buyCake() {
+        return {
+            type: BUY_CAKE,
+            info: 'First redux action'
+        }
+    }
+
+ Reducers
+ -Specify how the app's state changes in response to actions sent to the 
+  tore. Function that accepts state and action as arguements, and returns
+  the next state of the application.
+reducer-in index.js file::>
+
+// (previousState, action) => newState 
+
+const initialState = {
+    numOfCakes: 10,
+}
+
+const reducer = (state = initialState, action) => {
+    switch (action.type) {
+        case BUY_CAKE: return {
+            ...state,
+            numOfCakes: state.numOfCakes - 1
+        }
+        default: return state
+    }
+}
+
+
+Redux Store 
+- One store for the entire application
+Responsiblities-
+1. Holds application state
+2. Allows access to state via getState()
+3. Allows state to be updated via dispatch(action)
+4. Registers listeners via subscribe(listener)
+5. Handles unregistering of listeners via the function returned by 
+   subscribe(listener)
