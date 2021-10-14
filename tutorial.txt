@@ -97,3 +97,243 @@ Responsiblities-
 4. Registers listeners via subscribe(listener)
 5. Handles unregistering of listeners via the function returned by 
    subscribe(listener)
+
+in index.js file 
+store- 
+
+const redux = require('redux')
+
+const createStore = redux.createStore
+const BUY_CAKE = 'BUY_CAKE'
+
+function buyCake() {
+    return {
+        type: BUY_CAKE,
+        info: 'First redux action'
+    }
+}
+
+// (previousState, action) => newState 
+
+const initialState = {
+    numOfCakes: 10,
+}
+
+const reducer = (state = initialState, action) => {
+    switch (action.type) {
+        case BUY_CAKE: return {
+            ...state,
+            numOfCakes: state.numOfCakes - 1
+        }
+        default: return state
+    }
+}
+
+const store = createStore(reducer)
+console.log(`Initial State`, store.getState())
+const unsubscribe = store.subscribe(() => console.log('Update state', store.getState()))
+store.dispatch(buyCake())
+store.dispatch(buyCake())
+store.dispatch(buyCake())
+unsubscribe()
+
+==> multiple reducers with combine  them  
+
+
+
+const redux = require('redux')
+
+const createStore = redux.createStore
+
+const combineReducers = redux.combineReducers
+
+const BUY_CAKE = 'BUY_CAKE'
+const BUY_ICE = 'BUY_ICE'
+
+function buyCake() {
+    return {
+        type: BUY_CAKE,
+        info: 'First redux action'
+    }
+}
+
+function buyIce() {
+    return {
+        type: BUY_ICE,
+        info: '2nd redux action'
+    }
+}
+
+// (previousState, action) => newState 
+
+const initialCakeState = {
+    numOfCakes: 10,
+}
+
+const initialIceState = {
+    numofIce: 20
+}
+
+const cakeReducer = (state = initialCakeState, action) => {
+    switch (action.type) {
+        case BUY_CAKE: return {
+            ...state,
+            numOfCakes: state.numOfCakes - 1,
+        }
+        default: return state
+    }
+}
+
+
+const iceReducer = (state = initialIceState, action) => {
+    switch (action.type) {
+        case BUY_ICE: return {
+            ...state,
+            numofIce: state.numofIce + 3
+        }
+        default: return state
+    }
+}
+
+
+const rootReducer = combineReducers({
+    cake: cakeReducer,
+    ice: iceReducer
+})
+
+const store = createStore(rootReducer)
+console.log(`Initial State`, store.getState())
+const unsubscribe = store.subscribe(() => console.log('Update state', store.getState()))
+store.dispatch(buyCake())
+store.dispatch(buyIce())
+store.dispatch(buyCake())
+unsubscribe()
+
+
+Middleware
+________________________________________________________________________
+Is the suggested way to extend Redux with custom functionality
+Provides a third-party extension point between dispatching an action, and the
+moment it reaches the reducer
+Use Middleware for logging, crash reporting, performing asynchronous tasks etc.
+
+react-logger link --> https://www.npmjs.com/package/redux-logger
+just write command --> npm i --save redux-logger
+
+in index.js file::> 
+
+
+const redux = require('redux')
+const reduxLogger = require('redux-logger')
+const createStore = redux.createStore
+const combineReducers = redux.combineReducers
+const applyMiddleware = redux.applyMiddleware
+const logger = reduxLogger.createLogger()
+
+const BUY_CAKE = 'BUY_CAKE'
+const BUY_ICE = 'BUY_ICE'
+
+function buyCake() {
+    return {
+        type: BUY_CAKE,
+        info: 'First redux action'
+    }
+}
+
+function buyIce() {
+    return {
+        type: BUY_ICE,
+        info: '2nd redux action'
+    }
+}
+
+// (previousState, action) => newState 
+
+const initialCakeState = {
+    numOfCakes: 10,
+}
+
+const initialIceState = {
+    numofIce: 20
+}
+
+const cakeReducer = (state = initialCakeState, action) => {
+    switch (action.type) {
+        case BUY_CAKE: return {
+            ...state,
+            numOfCakes: state.numOfCakes - 1,
+        }
+        default: return state
+    }
+}
+
+
+const iceReducer = (state = initialIceState, action) => {
+    switch (action.type) {
+        case BUY_ICE: return {
+            ...state,
+            numofIce: state.numofIce + 3
+        }
+        default: return state
+    }
+}
+
+
+const rootReducer = combineReducers({
+    cake: cakeReducer,
+    ice: iceReducer
+})
+
+
+const store = createStore(rootReducer, applyMiddleware(logger))
+console.log(`Initial State`, store.getState())
+const unsubscribe = store.subscribe(() => console.log('Update state', store.getState()))
+store.dispatch(buyCake())
+store.dispatch(buyIce())
+store.dispatch(buyCake())
+unsubscribe()
+
+
+==>> Actions 
+____________________________________________________
+Synchronous Actions 
+___________________ 
+As soon as an action was dispatch, the state was immediately updated.
+if you dispatch the BUY_CAKE action, the numOfCakes was right away decremented by 1.
+same with  BUY_ICE action as well.
+
+Async actions
+___________________ 
+Asynchronous API calls to fetch data from an end point and use that data in your application.
+ 
+redux thunk
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hello, Assalamu alaikum This is Mohammad Naim Uddin from Chittgong. I called myself as a full Stack Web Developer. I have completed my Computer science
+Bachelor degree from Premier University, Chittagong in 2021. I have completed my internship from flexibleIt. The duration of this internship
+is about 6 months from january to july in 2021 but I took 1 month extra on my own to learn more. My most favourite language is php and python. But I loved python 
+only for data science and automation. I have gain most of my skill's by myself by doing new types project task.
+
+
+ As a junior web developer my goal is to gather more experience in IT skills. I also want to build a strong communication network with large software team members. and learn programming technique from seniors. 
+I think by joining wellDev i could gather or build up those experinece. By doing or completing wellDev daily job task.
